@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    const int STUDENTS = 3;
+    const int SUBJECTS = 5;
+
+    string subjects[SUBJECTS] = {"Phy", "Che", "Bio", "Math", "Eng"};
+    string studentName[STUDENTS];
+    int rollNo[STUDENTS];
+    int marks[STUDENTS][SUBJECTS];
+    int totalMarks = 100;  
+
+    for (int i = 0; i < STUDENTS; i++) {
+        cout << "\nEnter name of student " << i + 1 << ": ";
+        cin >> studentName[i];
+        cout << "Enter roll no: ";
+        cin >> rollNo[i];
+
+        for (int j = 0; j < SUBJECTS; j++) {
+            cout << "Enter marks in " << subjects[j] << " (out of 100): ";
+            cin >> marks[i][j];
+        }
+    }
+
+    for (int i = 0; i < STUDENTS; i++) {
+        cout << "\n----------------------------------------------\n";
+        cout << "Student : " << studentName[i] << endl;
+        cout << "Roll No : " << rollNo[i] << endl;
+
+        cout << "----------------------------------------------\n";
+        cout << "Subject\tObtain\tTotal\t%age\tPass/Fail\tGrade\n";
+
+        for (int j = 0; j < SUBJECTS; j++) {
+            int obtain = marks[i][j];
+            int percentage = (obtain * 100) / totalMarks;
+            string status = (percentage >= 50) ? "passed" : "failed";
+
+            char grade;
+            if (percentage >= 90) grade = 'A';
+            else if (percentage >= 80) grade = 'B';
+            else if (percentage >= 70) grade = 'C';
+            else if (percentage >= 60) grade = 'D';
+            else if (percentage >= 50) grade = 'E';
+            else grade = 'F';
+
+            cout << subjects[j] << "\t"
+                 << obtain << "\t"
+                 << totalMarks << "\t"
+                 << percentage << "\t"
+                 << status << "\t\t"
+                 << grade << endl;
+        }
+    }
+
+    return 0;
+}
