@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Car Showroom</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f2f2f2;
+}
+
+header{
+background:#111;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+nav{
+margin-top:10px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin:10px;
+}
+
+section{
+padding:40px;
+text-align:center;
+}
+
+.viewer{
+width:350px;
+height:220px;
+margin:auto;
+perspective:1000px;
+}
+
+.viewer img{
+width:100%;
+transition:.2s;
+}
+
+table{
+margin:auto;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+table,th,td{
+border:1px solid black;
+padding:10px;
+}
+
+ul{
+list-style:none;
+margin-top:20px;
+}
+
+li{
+padding:8px;
+}
+
+form{
+width:300px;
+margin:auto;
+display:flex;
+flex-direction:column;
+}
+
+input,button{
+padding:10px;
+margin:10px 0;
+}
+
+button{
+background:#111;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+footer{
+background:#111;
+color:white;
+padding:15px;
+text-align:center;
+margin-top:30px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>3D Car Showroom</h1>
+
+<nav>
+<a href="#showroom">Showroom</a>
+<a href="#compare">Compare</a>
+<a href="#specs">Specifications</a>
+<a href="#book">Book Test Drive</a>
+<a href="#contact">Contact</a>
+</nav>
+
+</header>
+
+<section id="showroom">
+
+<h2>Interactive 360° Car</h2>
+
+<div class="viewer">
+
+<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800"
+id="car">
+
+</div>
+
+<p>Move your mouse over the car.</p>
+
+</section>
+
+<section id="compare">
+
+<h2>Compare Cars</h2>
+
+<table>
+
+<tr>
+
+<th>Model</th>
+<th>Engine</th>
+<th>Price</th>
+
+</tr>
+
+<tr>
+
+<td>Car A</td>
+<td>1500cc</td>
+<td>$18,000</td>
+
+</tr>
+
+<tr>
+
+<td>Car B</td>
+<td>1800cc</td>
+<td>$22,000</td>
+
+</tr>
+
+</table>
+
+</section>
+
+<section id="specs">
+
+<h2>Car Specifications</h2>
+
+<ul>
+
+<li>Engine : 1800cc</li>
+<li>Fuel : Petrol</li>
+<li>Transmission : Automatic</li>
+<li>Mileage : 18 km/l</li>
+<li>Airbags : 6</li>
+
+</ul>
+
+</section>
+
+<section id="book">
+
+<h2>Book Test Drive</h2>
+
+<form>
+
+<input type="text" placeholder="Your Name" required>
+
+<input type="email" placeholder="Email" required>
+
+<input type="date">
+
+<button type="submit">Book Now</button>
+
+</form>
+
+</section>
+
+<section id="contact">
+
+<h2>Contact Dealer</h2>
+
+<p>Email : dealer@email.com</p>
+
+<p>Phone : +92 300 1234567</p>
+
+</section>
+
+<footer>
+
+<p>Simple 3D Car Showroom</p>
+
+</footer>
+
+<script>
+
+let car=document.getElementById("car");
+
+car.addEventListener("mousemove",function(e){
+
+let x=e.offsetX;
+
+car.style.transform="rotateY("+((x-175)/3)+"deg)";
+
+});
+
+car.addEventListener("mouseleave",function(){
+
+car.style.transform="rotateY(0deg)";
+
+});
+
+</script>
+
+</body>
+</html>
