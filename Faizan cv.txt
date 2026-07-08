@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Faizan Khan — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d1117;
+    --panel: #12181f;
+    --panel-2: #161d26;
+    --line: #232b35;
+    --text: #c9d1d9;
+    --dim: #6e7681;
+    --green: #7ee787;
+    --blue: #79c0ff;
+    --orange: #ffa657;
+    --purple: #d2a8ff;
+    --pink: #f97583;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    display:flex;
+    min-height:100vh;
+  }
+  ::selection{ background: var(--blue); color: #0d1117; }
+
+  /* ---------- SIDEBAR ("file tree") ---------- */
+  .sidebar{
+    width: 240px;
+    flex-shrink:0;
+    background: var(--panel);
+    border-right: 1px solid var(--line);
+    padding: 24px 0;
+    position: sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .sidebar-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:1.5px;
+    color: var(--dim);
+    padding: 0 20px 14px;
+    text-transform: uppercase;
+  }
+  .file-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding: 9px 20px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    color: var(--dim);
+    cursor:pointer;
+    border-left: 2px solid transparent;
+    text-decoration:none;
+    transition: color .15s, background .15s, border-color .15s;
+  }
+  .file-item .dot{ color: var(--blue); font-size:10px; }
+  .file-item:hover{ color: var(--text); background: var(--panel-2); }
+  .file-item.active{ color: var(--green); background: var(--panel-2); border-left-color: var(--green); }
+
+  /* ---------- MAIN "EDITOR" AREA ---------- */
+  .editor{
+    flex:1;
+    min-width:0;
+  }
+  .tabbar{
+    display:flex;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top:0;
+    z-index: 10;
+    overflow-x:auto;
+  }
+  .tab{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--dim);
+    padding: 12px 18px;
+    border-right: 1px solid var(--line);
+    white-space:nowrap;
+  }
+  .tab.active{ color: var(--text); background: var(--bg); border-top:2px solid var(--green); }
+
+  .code{
+    padding: 40px clamp(20px, 5vw, 64px) 100px;
+    max-width: 900px;
+  }
+  .ln{
+    color: var(--dim);
+    display:inline-block;
+    width: 28px;
+    user-select:none;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .comment{ color: var(--dim); font-family:'JetBrains Mono', monospace; font-size: 13px; }
+  .kw{ color: var(--pink); font-family:'JetBrains Mono', monospace; }
+  .type{ color: var(--blue); font-family:'JetBrains Mono', monospace; }
+  .str{ color: var(--green); font-family:'JetBrains Mono', monospace; }
+  .fn{ color: var(--purple); font-family:'JetBrains Mono', monospace; }
+  .num{ color: var(--orange); font-family:'JetBrains Mono', monospace; }
+  .punc{ color: var(--dim); font-family:'JetBrains Mono', monospace; }
+
+  section{ margin-bottom: 46px; scroll-margin-top: 70px; }
+
+  .hero h1{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:800;
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--text);
+    margin: 6px 0 4px;
+  }
+  .hero h1 .accent{ color: var(--green); }
+  .hero .role{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--blue);
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+  .hero .role::before{ content:'// '; color: var(--dim); }
+  .cursor{
+    display:inline-block;
+    width:9px; height:18px;
+    background: var(--green);
+    vertical-align: middle;
+    margin-left:4px;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .lede{ color: var(--dim); font-size: 14.5px; max-width: 640px; margin-top: 8px; }
+
+  h2.sectitle{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  h2.sectitle .braces{ color: var(--green); }
+
+  .block{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+  }
+  .block h3{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 15.5px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .block .meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--orange);
+    margin-bottom: 10px;
+  }
+  .block p{ color: var(--dim); font-size: 14px; }
+  .badge{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    border: 1px solid #2a3f33;
+    background: #101c14;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-right: 6px;
+  }
+
+  .skills-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+    gap: 12px;
+  }
+  .skill-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 16px;
+    text-align:center;
+    transition: transform .15s, border-color .15s;
+  }
+  .skill-card:hover{ transform: translateY(-3px); border-color: var(--green); }
+  .skill-card .icon{ font-family:'JetBrains Mono', monospace; font-size: 20px; color: var(--green); margin-bottom:6px; display:block; }
+  .skill-card .name{ font-family:'JetBrains Mono', monospace; font-size: 13px; color: var(--text); }
+  .bar-bg{ background: var(--line); height:5px; border-radius:3px; margin-top:10px; overflow:hidden; }
+  .bar-fill{ height:100%; background: linear-gradient(90deg, var(--green), var(--blue)); width:0%; border-radius:3px; transition: width 1.2s ease; }
+
+  .contact-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 12px;
+  }
+  .contact-row a{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--blue);
+    text-decoration:none;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 9px 14px;
+    border-radius: 6px;
+    transition: border-color .15s, color .15s;
+  }
+  .contact-row a:hover{ border-color: var(--blue); color: var(--text); }
+
+  .print-btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--bg);
+    background: var(--green);
+    border:none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor:pointer;
+    font-weight:700;
+  }
+  .print-btn:hover{ background: var(--blue); }
+
+  footer{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--dim);
+    font-size: 12px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  a:focus-visible, .file-item:focus-visible, .print-btn:focus-visible{
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 780px){
+    .sidebar{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cursor{ animation:none; }
+    .skill-card{ transition:none; }
+    .bar-fill{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sidebar" aria-label="Section navigation">
+  <div class="sidebar-title">Explorer</div>
+  <a href="#about" class="file-item active"><span class="dot">●</span> about.h</a>
+  <a href="#education" class="file-item"><span class="dot">●</span> education.h</a>
+  <a href="#skills" class="file-item"><span class="dot">●</span> skills.h</a>
+  <a href="#experience" class="file-item"><span class="dot">●</span> experience.h</a>
+  <a href="#contact" class="file-item"><span class="dot">●</span> contact.h</a>
+</nav>
+
+<main class="editor">
+  <div class="tabbar">
+    <div class="tab active">cv.cpp</div>
+  </div>
+
+  <div class="code">
+
+    <section class="hero" id="about">
+      <span class="comment">// Software Engineering student — building with C++ and the web</span>
+      <h1><span class="kw">class</span> <span class="type">MuhammadFaizanKhan</span> <span class="punc">{}</span><span class="cursor"></span></h1>
+      <div class="role">Software Engineering Student</div>
+      <p class="lede">
+        Currently studying Software Engineering, focused on C++ and web development.
+        Completed an industry internship at Technicast, working on production and marketing (Mtech track),
+        with two internship certificates earned along the way.
+      </p>
+    </section>
+
+    <section id="education">
+      <h2 class="sectitle"><span class="braces">&lt;</span> Education <span class="braces">/&gt;</span></h2>
+      <div class="block">
+        <h3>BS Software Engineering</h3>
+        <div class="meta">Pak-Austria Fachhochschule: Institute of Applied Sciences and Technology, Haripur</div>
+        <p>Coursework and self-driven projects centered on C++ programming and modern web development (HTML, CSS, JavaScript).</p>
+        <span class="badge">Software Engineering</span>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2 class="sectitle"><span class="braces">&lt;</span> Skills <span class="braces">/&gt;</span></h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <span class="icon">&lt;/&gt;</span>
+          <div class="name">C++</div>
+          <div class="bar-bg"><div class="bar-fill" data-level="88"></div></div>
+        </div>
+        <div class="skill-card">
+          <span class="icon">🌐</span>
+          <div class="name">HTML</div>
+          <div class="bar-bg"><div class="bar-fill" data-level="85"></div></div>
+        </div>
+        <div class="skill-card">
+          <span class="icon">🎨</span>
+          <div class="name">CSS</div>
+          <div class="bar-bg"><div class="bar-fill" data-level="80"></div></div>
+        </div>
+        <div class="skill-card">
+          <span class="icon">⚡</span>
+          <div class="name">JavaScript</div>
+          <div class="bar-bg"><div class="bar-fill" data-level="75"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2 class="sectitle"><span class="braces">&lt;</span> Experience <span class="braces">/&gt;</span></h2>
+      <div class="block">
+        <h3>Intern — Mtech Production &amp; Marketing</h3>
+        <div class="meta">Technicast</div>
+        <p>Completed an internship in the Mtech production and marketing track, gaining hands-on exposure to how technical products move from production through to market.</p>
+        <span class="badge">Certificate 1</span>
+        <span class="badge">Certificate 2</span>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="sectitle"><span class="braces">&lt;</span> Contact <span class="braces">/&gt;</span></h2>
+      <div class="block">
+        <p style="margin-bottom:14px;">Add your details below — replace the placeholders with your real email and phone number.</p>
+        <div class="contact-row">
+          <a href="mailto:your.email@example.com">✉ your.email@example.com</a>
+          <a href="tel:+920000000000">☎ +92 300 0000000</a>
+          <a href="#" onclick="window.print(); return false;">📄 Download / Print CV</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="comment">// End of cv.cpp — thanks for reading</span>
+    </footer>
+
+  </div>
+</main>
+
+<script>
+  // Highlight active file in sidebar on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.file-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.file-item[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Animate skill bars once visible
+  const bars = document.querySelectorAll('.bar-fill');
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bar = entry.target;
+        bar.style.width = bar.dataset.level + '%';
+        barObserver.unobserve(bar);
+      }
+    });
+  }, { threshold: 0.4 });
+  bars.forEach(b => barObserver.observe(b));
+</script>
+
+</body>
+</html>
